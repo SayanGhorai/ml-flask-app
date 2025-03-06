@@ -27,19 +27,23 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip  # Ensure pip is upgraded
-          pip install -r requirements.txt  # Install required packages
+          pip install -r requirements.txt
           pip install pytest  # Ensure pytest is installed
 
-      # Verify installation of pytest
+      # Verify pytest installation
       - name: Verify pytest installation
         run: |
           pip show pytest  # Check if pytest is installed
           which pytest     # Check pytest path
 
+      # List project files for debugging
+      - name: List project files
+        run: ls -R # List all files and folders recursively
+
       # Run tests
       - name: Run tests
         run: |
-          pytest  # Run tests using pytest
+          pytest test_app.py  # Run tests from test_app.py
 
       # Build Docker image
       - name: Build Docker image
