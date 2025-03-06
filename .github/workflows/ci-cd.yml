@@ -36,9 +36,10 @@ jobs:
           pip show pytest  # Check if pytest is installed
           which pytest     # Check pytest path
 
-      # List project files for debugging
-      - name: List project files
-        run: ls -R # List all files and folders recursively
+      # List all files to verify test_app.py path
+      - name: List all files
+        run: |
+          ls -R  # List all files recursively to find test_app.py
 
       # Run tests
       - name: Run tests
