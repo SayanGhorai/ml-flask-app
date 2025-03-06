@@ -26,8 +26,15 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
+          pip install --upgrade pip  # Ensure pip is upgraded
           pip install -r requirements.txt
           pip install pytest  # Ensure pytest is installed
+
+      # Verify installation of pytest
+      - name: Verify pytest installation
+        run: |
+          pip show pytest  # Check if pytest is installed
+          which pytest     # Check pytest path
 
       # Run tests
       - name: Run tests
