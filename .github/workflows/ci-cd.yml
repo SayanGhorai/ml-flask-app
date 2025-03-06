@@ -27,11 +27,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+          pip install pytest  # Ensure pytest is installed
 
-      # Run tests (Optional, if you have tests)
+      # Run tests
       - name: Run tests
         run: |
-          pytest  # Or your test command
+          pytest  # Run tests using pytest
 
       # Build Docker image
       - name: Build Docker image
