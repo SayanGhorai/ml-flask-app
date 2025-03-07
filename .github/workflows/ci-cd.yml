@@ -11,7 +11,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: dev # Keep 'dev' environment
 
     steps:
       # Checkout the code
@@ -45,7 +45,7 @@ jobs:
       # Upload test results if failed
       - name: Upload Test Results
         if: failure()
-        uses: actions/upload-artifact@v2 # Changed from v3 to v2
+        uses: actions/upload-artifact@v3 # Updated to v3 to fix the error
         with:
           name: test-results
           path: test-results.xml
