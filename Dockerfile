@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy files to container
 COPY . .
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Install dependencies efficiently
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose port 5000 for Flask
 EXPOSE 5000

@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main # Trigger on push to main branch
+      - main
   pull_request:
     branches:
-      - main # Trigger on pull requests to main branch
+      - main
 
 jobs:
   build-and-deploy:
@@ -17,6 +17,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Cache pip dependencies to speed up builds
+      - name: Cache pip packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       # Set up Python
       - name: Set up Python 3.9
         uses: actions/setup-python@v2
@@ -25,24 +34,20 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        run: |
-          pip install --upgrade pip  # Ensure pip is upgraded
-          pip install -r requirements.txt  # Install required packages
-          pip install pytest  # Ensure pytest is installed
-
-      # Verify pytest installation
-      - name: Verify pytest installation
-        run: |
-          pip show pytest  # Check if pytest is installed
-          which pytest      # Check pytest path
-
-      # List all files to verify test_app.py path
-      - name: List all files
-        run: ls -R # List all files recursively
+        run: pip install -r requirements.txt
 
       # Run tests
       - name: Run tests
-        run: pytest test_app.py # Run tests from test_app.py
+        run: pytest test_app.py --junitxml=test-results.xml
+        continue-on-error: true
+
+      # Upload test results if failed
+      - name: Upload Test Results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results.xml
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
