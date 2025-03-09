@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib  # For loading the model
 import numpy as np
 
@@ -7,10 +7,10 @@ app = Flask(__name__)
 # Load the trained model
 model = joblib.load("model.pkl")
 
-# 🆕 Fix: Add a home route to solve 404 error
+#Fix: Add a home route to solve 404 error
 @app.route('/')
 def home():
-    return "Welcome to the ML Flask App!"
+    return render_template('index.html')
 
 # Define a route for prediction
 @app.route('/predict', methods=['POST'])
